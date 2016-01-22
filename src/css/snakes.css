@@ -1,0 +1,172 @@
+
+/* COLORS
+ * Grass Yellow rgba(255,255,200)
+ * Mahogany #ff6633
+ * 65% orange #ffb84d
+ * 80% orange #ffd699
+ * Bright Orange #FF5800
+ * Rally Yellow rgba(242,239,4)
+ * Std Orange #ff9900
+*/
+/*
+ * Body
+ */
+
+
+html,
+body {
+  height: 100%;
+  background-color: rgba(255,255,200,1);
+}
+
+body {
+  color: rgba(0,0,0,.75);
+  text-align: center;
+  padding-top: 62px;
+}
+
+a {
+  color: #ff6633;
+}
+a:hover,
+a:focus {
+  color: #ffb84d;
+}
+
+#love {
+  display: none;
+}
+
+.snakes {
+}
+
+/* Parallax images */
+#badsnake { 
+  background: url(../images/badsnake.jpg) 100% 0 fixed; 
+  height: 200px;  
+}
+#badsnake2 { 
+  background: url(../images/badsnake2.jpg) 100% 0 fixed; 
+  height: 200px;  
+}
+#badsnake3 { 
+  background: url(../images/badsnake3.jpg) 100% 0 fixed; 
+  height: 200px;  
+}
+#goodsnake { 
+  background: url(../images/goodsnake.jpg) 100% 0 fixed; 
+  height: 200px;  
+}
+#goodsnake2 { 
+  background: url(../images/goodsnake2.jpg) 100% 0 fixed; 
+  height: 200px;  
+}
+#goodsnake3 { 
+  background: url(../images/goodsnake3.jpg) 100% 0 fixed; 
+  height: 200px;  
+}
+
+/* Table */
+th, td {
+  padding: 10px;
+  padding-right: 40px;
+  padding-left: 40px;
+  font-size: 22px;
+}
+
+th {
+  text-align: center;
+}
+
+/*
+ * Header
+ */
+
+.brand > img {
+  padding-top: 8px;
+  padding-bottom: 4px;
+  padding-left: 20px;
+  height: 50px;
+  float: left;
+}
+
+.masthead-nav > li {
+  display: inline-block;
+}
+
+.masthead-nav > li > a {
+  padding-top: 8px;
+  font-family: helvetica;
+  text-transform: uppercase;
+  font-size: 16px;
+}
+
+.masthead-nav > li > a:hover,
+.masthead-nav > li > a:focus {
+  background-color: transparent;
+  border-bottom-color: #FF5800;
+}
+
+.sample {
+  color: orange;
+  padding-top: 15px;
+}
+
+/* 768+ px */
+@media (min-width: 768px) {
+  body {
+    padding-top: 82px;
+  }
+  /* Pull out the header and footer */
+  .masthead {
+    position: fixed;
+    top: 0;
+  }
+
+  .masthead-nav {
+    float: right;
+  }
+
+  .masthead-nav > li > a {
+    padding-top: 26px;
+    font-size: 20px;
+    font-weight: normal;
+    border-bottom: 2px solid transparent;
+  }
+
+  .masthead-nav > li + li {
+    margin-left: 20px;
+  }
+
+  .brand > img {
+    padding-top: 8px;
+    padding-bottom: 4px;
+    height: 70px;
+  }
+
+  /* Handle the widths */
+  .masthead,
+  .snakes {
+    width: 100%; /* Must be percentage or pixels for horizontal alignment */
+  }
+}
+
+/* 992+ px */
+@media (min-width: 992px) {
+  .masthead,
+  .snakes {
+    width: 700px;
+  }
+}
+
+/* Selection */
+
+::-moz-selection {
+       background-color: #ff9900;
+       color: #000;
+}
+
+::selection {
+       background-color: #ff9900;
+       color: #000;
+}

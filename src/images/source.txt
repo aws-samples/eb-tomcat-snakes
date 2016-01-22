@@ -1,0 +1,23 @@
+Images from Pixabay.com 
+terms: https://pixabay.com/en/service/terms/#usage
+
+badsnake.png
+https://pixabay.com/en/snake-river-panorama-landscape-1087712/
+
+badsnake2.jpg
+https://pixabay.com/en/snake-river-teton-mountains-range-883548/
+
+badsnake3.jpg
+https://pixabay.com/en/snake-river-rocks-wilderness-idaho-922336/
+
+goodsnake.jpg
+https://pixabay.com/en/grass-snake-snake-snakehead-yellow-379025/
+
+goodsnake2.jpg
+https://pixabay.com/en/snake-zoo-macro-animal-171655/
+
+goodsnake3.jpg
+https://pixabay.com/en/emperor-snake-boa-snake-501569/
+
+snake.png
+https://pixabay.com/en/snake-reptile-lizard-nature-145409/

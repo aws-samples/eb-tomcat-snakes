@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.oracle.com/webfolder/technetwork/jsc/xml/ns/javaee/web-app_3_1.xsd"
+  version="3.1">
+
+  <display-name>Does it have snakes?</display-name>
+  <description>
+		This is a simple web application with a source code organization
+		based on the recommendations of the Application Developer's Guide.
+  </description>
+  
+  <error-page>
+    <error-code>404</error-code>
+    <location>/404.jsp</location>
+  </error-page>
+
+  <welcome-file-list>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+
+  <servlet>
+    <servlet-name>AddServlet</servlet-name>
+    <jsp-file>/add.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AddServlet</servlet-name>
+    <url-pattern>/add</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>AddPost</servlet-name>
+    <servlet-class>com.snakes.web.AddMovie</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AddPost</servlet-name>
+    <url-pattern>/add.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>Search</servlet-name>
+    <servlet-class>com.snakes.web.SearchMovies</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Search</servlet-name>
+    <url-pattern>/search</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>ViewServlet</servlet-name>
+    <jsp-file>/view.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ViewServlet</servlet-name>
+    <url-pattern>/view</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>MoviesServlet</servlet-name>
+    <jsp-file>/movies.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MoviesServlet</servlet-name>
+    <url-pattern>/movies</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>DeleteDBServlet</servlet-name>
+    <jsp-file>/admin-deletedb.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DeleteDBServlet</servlet-name>
+    <url-pattern>/admin-deletedb</url-pattern>
+  </servlet-mapping>
+
+</web-app>
