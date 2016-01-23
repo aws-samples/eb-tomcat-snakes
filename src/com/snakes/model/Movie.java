@@ -73,7 +73,7 @@ public class Movie extends Media {
         movies.add(movie);
       }
     }
-    catch (SQLException e) {e.toString();}
+    catch (SQLException e) { logger.warn(e.toString());}
 
     return movies.toArray(new Movie[movies.size()]);
   }
@@ -107,7 +107,7 @@ public class Movie extends Media {
         movies.add(movie);
       }
     }
-    catch (SQLException e) {e.toString();}
+    catch (SQLException e) { logger.warn(e.toString());}
 
     return movies.toArray(new Movie[movies.size()]);
   }
@@ -126,7 +126,7 @@ public class Movie extends Media {
       create.executeBatch();
       create.close();
     }
-    catch (SQLException f) {f.toString();}
+    catch (SQLException f) { logger.warn(f.toString());}
   }
 
   public static String deleteDatabase() {
@@ -138,7 +138,7 @@ public class Movie extends Media {
       logger.warn("Deleted Movie Database");
       return new String("Executed statement: " + result + " rows affected.");
     }
-    catch (SQLException f) {f.toString();}
+    catch (SQLException f) { logger.warn(f.toString());}
     return new String("Statement execution failed.");
   }
 
@@ -183,7 +183,7 @@ public class Movie extends Media {
         create.close();
         logger.warn("Initialized Database");
       }
-      catch (SQLException f) {f.toString();}
+      catch (SQLException f) { logger.warn(f.toString());}
     }
   }
 
@@ -235,8 +235,8 @@ public class Movie extends Media {
       return con;
     }
     catch (IOException e) { logger.warn("Database configuration file not found. Checking environment variables.");}
-    catch (ClassNotFoundException e) {e.toString();}
-    catch (SQLException e) {e.toString();}
+    catch (ClassNotFoundException e) { logger.warn(e.toString());}
+    catch (SQLException e) { logger.warn(e.toString());}
 
     // Read database info from environment variables (standard configration)
     if (System.getProperty("RDS_HOSTNAME") != null) {
@@ -253,8 +253,8 @@ public class Movie extends Media {
       logger.info("Remote connection successful.");
       return con;
     }
-    catch (ClassNotFoundException e) {e.toString();}
-    catch (SQLException e) {e.toString();}
+    catch (ClassNotFoundException e) { logger.warn(e.toString());}
+    catch (SQLException e) { logger.warn(e.toString());}
     }
     return null;
   }
@@ -271,8 +271,8 @@ public class Movie extends Media {
       logger.info("Local connection successful.");
       return con;
     }
-    catch (ClassNotFoundException e) {e.toString();}
-    catch (SQLException e) {e.toString();}
+    catch (ClassNotFoundException e) { logger.warn(e.toString());}
+    catch (SQLException e) { logger.warn(e.toString());}
     return null;
   }
 }
