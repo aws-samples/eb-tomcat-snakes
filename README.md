@@ -14,7 +14,7 @@ Open [localhost:8080](http://localhost:8080/) in a web browser to view the appli
 
 You can deploy the ROOT.war archive that build.sh generates to an AWS Elastic Beanstalk web server environment running the Tomcat 8 platform.
 
-### To download and build the project
+### To download, build and deploy the project
 Clone the project:
 
 	~$ git clone git@github.com:awslabs/eb-tomcat-snakes.git
@@ -23,6 +23,8 @@ Build the project:
 
 	~$ cd eb-tomcat-snakes
 	~/eb-tomcat-snakes$ ./build.sh
+
+You can use either the AWS Management Console or the EB CLI to launch the compiled WAR. Scroll down for EB CLI instructions.
 
 ##### To deploy with the AWS Management Console
 1. Open the [Elastic Beanstalk Management Console](https://console.aws.amazon.com/elasticbeanstalk/home)
@@ -65,7 +67,7 @@ Add the following to ``.elasticbeanstalk/config.yml``:
 
 Create an environment with an RDS database:
 
-	~/eb-tomcat-snakes$ eb create tomcat-snakes --sample -i t2.micro --database.engine postgres --database.instance db.t2.micro --database.username *any username* --database.password *any password*
+	~/eb-tomcat-snakes$ eb create tomcat-snakes --sample --single --timeout 20 -i t2.micro --database.engine postgres --database.instance db.t2.micro --database.username *any username* --database.password *any password*
 
 Deploy the project WAR to your new environment:
 
@@ -75,7 +77,26 @@ Open the environment in a browser:
 
 	~/eb-tomcat-snakes$ eb open
 
-## CONTENTS
+## Site Functionality
+The application is a simple Java EE site that uses simple tags, tag files, and an SQL database hosted in an external database in Amazon Relational Database Service (Amazon RDS).
+
+The front page is a very basic introduction with a little bit of Javascript. All pages use a tag file for the header, and Bootstrap CSS for mobile friendly rendering.
+
+The **Browse Movies** page shows a list of movies from the database generated with a simple tag.
+
+The **Add a Movie** page is a form that lets a user add a movie to the database. It takes a movie name, link to IMDB or IMDB movie ID (e.g. tt0118615), and a boolean value that indicates whether the movie has snakes in it or not. Form input is validated with a regex in the movies model.
+
+The **Search** page lets you perform a basic search for a movie with full name matches only.
+
+## Database Use
+The application can connect to an RDS DB instance that is part of your Elastic Beanstalk environment, or an independent RDS DB instance that you launched outside of Elastic Beanstalk. To connect to an external DB instance, configure Environment Properties for each of the connection variables (RDS_HOST, etc), or store the full connection string in a JSON file in Amazon S3. 
+
+For the latter method, a configuration file is included under ``src/.ebextensions/inactive`` that you can modify to download the connection object from S3. When the configuration file is updated to point at your bucket and object, and moved into the ``src/.ebextensions`` folder, Elastic Beanstalk downloads the file to the EC2 instance running your application during deployment. When the application attempts to create a database connection, it will look for the file and use the connection string that it specifies to connect to the database prior to reading environment variables.
+
+## Log4j
+The application uses Log4j to generate a log file named ``snakes.log``. The project includes a configuration file in ``src/.ebextensions`` that configures Elastic Beanstalk to include ``snakes.log`` when you request tailed logs.
+
+## Project Contents
 
 This project is organized as follows (some files not shown):
 
@@ -83,6 +104,7 @@ This project is organized as follows (some files not shown):
 	├── README              - This file
 	├── build.sh            - Build script
 	└── src
+			|-- .ebextensions		- Elastic Beanstalk configuration files
 	    ├── 404.jsp         - 404 error JSP
 	    ├── add.jsp         - Add a Movie JSP
 	    ├── default.jsp     - Home Page JSP
@@ -109,5 +131,5 @@ This project is organized as follows (some files not shown):
 	    │   ├── movies.html - HTML page for testing stylesheet changes
 	    │   └── snakes.css  - Custom styles
 	    ├── images          - Some royalty free images for the header and front page
-	    └── js              - Bootstrap's javascript
+	    └── js              - Bootstrap and parallax effect javascript
 	
