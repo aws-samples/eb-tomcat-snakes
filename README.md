@@ -104,7 +104,7 @@ This project is organized as follows (some files not shown):
 	├── README              - This file
 	├── build.sh            - Build script
 	└── src
-	    |-- .ebextensions		- Elastic Beanstalk configuration files
+	    ├── .ebextensions   - Elastic Beanstalk configuration files
 	    ├── 404.jsp         - 404 error JSP
 	    ├── add.jsp         - Add a Movie JSP
 	    ├── default.jsp     - Home Page JSP
