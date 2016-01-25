@@ -93,6 +93,8 @@ The application can connect to an RDS DB instance that is part of your Elastic B
 
 For the latter method, a configuration file is included under ``src/.ebextensions/inactive`` that you can modify to download the connection object from S3. When the configuration file is updated to point at your bucket and object, and moved into the ``src/.ebextensions`` folder, Elastic Beanstalk downloads the file to the EC2 instance running your application during deployment. When the application attempts to create a database connection, it will look for the file and use the connection string that it specifies to connect to the database prior to reading environment variables.
 
+The application looks for a table named movies. If it doesn't find one, it creates a new table and seeds it a with a few entries.
+
 ## Log4j
 The application uses Log4j to generate a log file named ``snakes.log``. The project includes a configuration file in ``src/.ebextensions`` that configures Elastic Beanstalk to include ``snakes.log`` when you request tailed logs.
 
@@ -127,7 +129,7 @@ This project is organized as follows (some files not shown):
 	    │           ├── AddMovie.java
 	    │           ├── ListMovies.java
 	    │           └── SearchMovies.java
-	    ├── css - Stylesheets
+	    ├── css             - Stylesheets
 	    │   ├── movies.html - HTML page for testing stylesheet changes
 	    │   └── snakes.css  - Custom styles
 	    ├── images          - Some royalty free images for the header and front page
