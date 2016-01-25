@@ -11,7 +11,7 @@ javac -classpath WEB-INF/lib/*:WEB-INF/classes -d WEB-INF/classes com/snakes/web
 echo .
 javac -classpath WEB-INF/lib/*:WEB-INF/classes -d WEB-INF/classes com/snakes/web/SearchMovies.java
 echo .
-jar -cf ROOT.war *.jsp images css js WEB-INF .ebextensions/*.config
+jar -cf ROOT.war *.jsp images css js WEB-INF .ebextensions/*.config .ebextensions/*.json
 echo .
 if [ -d "/Library/Tomcat/webapps" ]; then
   cp ROOT.war /Library/Tomcat/webapps

@@ -47,6 +47,16 @@ public class Movie extends Media {
     return snakes;
   }
 
+  public String getSnakesBool() {
+    String snakes = null;
+    if (_snakes) {
+      snakes = "true";
+    }
+    else {
+      snakes = "false";
+    }
+    return snakes;
+  }
 
   public static Movie[] getMovies() {
 
@@ -149,7 +159,7 @@ public class Movie extends Media {
     if (con == null) {
       return;
     }
-    // Read movies table
+    // Attempt to read movies table
     try {
       Statement stmt = con.createStatement();
       String sql = "SELECT * FROM Movies";
@@ -158,32 +168,26 @@ public class Movie extends Media {
     // If the movies table doesn't exist, create it
     catch (SQLException e) {
       try {
-        Statement create = con.createStatement();
         logger.warn("Initializing Database");
+        File databaseConfig = new File("/tmp/database-seed.json");
+        JsonParser parser = factory.createParser(databaseConfig);
+        ArrayList<Movie> movies = new ArrayList<Movie>();
+        Movie testmovie = new Movie("Anaconda", 118615, true);
+        movies.add(testmovie);
+        Statement create = con.createStatement();
         String createTable = "CREATE TABLE Movies (Name char(50), IMDB integer, Snakes boolean);";
-        String insertRow1 = "INSERT INTO Movies (Name, IMDB, Snakes) VALUES ('Anaconda', '0118615', 'true');";
-        String insertRow2 = "INSERT INTO Movies (Name, IMDB, Snakes) VALUES ('Blade Runner', '0083658', 'true');";
-        String insertRow3 = "INSERT INTO Movies (Name, IMDB, Snakes) VALUES ('Casablanca', '0034583', 'false');";
-        String insertRow4 = "INSERT INTO Movies (Name, IMDB, Snakes) VALUES ('Dracula', '0103874', 'true');";
-        String insertRow5 = "INSERT INTO Movies (Name, IMDB, Snakes) VALUES ('Elysium', '1535108', 'true');";
-        String insertRow6 = "INSERT INTO Movies (Name, IMDB, Snakes) VALUES ('Fargo', '2802850', 'true');";
-        String insertRow7 = "INSERT INTO Movies (Name, IMDB, Snakes) VALUES ('Guardians of the Galaxy', '2015381', 'true');";
-        String insertRow8 = "INSERT INTO Movies (Name, IMDB, Snakes) VALUES ('Halloween', '0077651', 'true');";
-
         create.addBatch(createTable);
-        create.addBatch(insertRow1);
-        create.addBatch(insertRow2);
-        create.addBatch(insertRow3);
-        create.addBatch(insertRow4);
-        create.addBatch(insertRow5);
-        create.addBatch(insertRow6);
-        create.addBatch(insertRow7);
-        create.addBatch(insertRow8);
+        for (Movie movie : movies) {
+          String row = "INSERT INTO Movies (Name, IMDB, Snakes) VALUES ('" + movie.getName() + "', '"+ movie.getImdb() + "', '" + movie.getSnakesBool() + "');";
+          logger.info("adding row: "+row);  
+          create.addBatch(row);
+        }
         create.executeBatch();
         create.close();
         logger.warn("Initialized Database");
       }
       catch (SQLException f) { logger.warn(f.toString());}
+      catch (IOException g) { logger.warn(g.toString());}
     }
   }
 
