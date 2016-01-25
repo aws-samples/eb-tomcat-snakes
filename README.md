@@ -1,16 +1,9 @@
 # eb-tomcat-snakes
-Tomcat application that shows the use of RDS in a Java EE web application in AWS Elastic Beanstalk.
-
-**IMPORTANT**
-Always run build.sh from the root of the project directory.
+Tomcat application that shows the use of RDS in a Java EE web application in AWS Elastic Beanstalk. The project shows the use of Servlets, JSPs, Simple Tag Support, Tag Files, JDBC, SQL, Log4J, Bootstrap, Jackson, and Elastic Beanstalk configuration files.
 
 ## INSTRUCTIONS
 Install the Java 8 JDK. The java compiler is required to run the build script.
-If you would like to run the web app locally, install Tomcat and Postgresql.
-
-Run build.sh to compile the web app and create a WAR file. The script attempts to copy the WAR file to ``/Library/Tomcat`` for local testing. If you installed Tomcat to another location, change the path in ``build.sh``.
-
-Open [localhost:8080](http://localhost:8080/) in a web browser to view the application running locally.
+If you would like to run the web app locally, install Tomcat 8 and Postgresql 9.4.
 
 You can deploy the ROOT.war archive that build.sh generates to an AWS Elastic Beanstalk web server environment running the Tomcat 8 platform.
 
@@ -19,10 +12,20 @@ Clone the project:
 
 	~$ git clone git@github.com:awslabs/eb-tomcat-snakes.git
 
-Build the project:
+Run ``build.sh`` to compile the web app and create a WAR file:
 
 	~$ cd eb-tomcat-snakes
 	~/eb-tomcat-snakes$ ./build.sh
+
+**IMPORTANT**
+Always run build.sh from the root of the project directory.
+
+The script compiles the project's classes, packs the necessary files into a web archive, and then attempts to copy the WAR file to ``/Library/Tomcat`` for local testing. If you installed Tomcat to another location, change the path in ``build.sh``:
+
+	if [ -d "/path/to/Tomcat/webapps" ]; then
+	  cp ROOT.war /path/to/Tomcat/webapps
+
+Open [localhost:8080](http://localhost:8080/) in a web browser to view the application running locally.
 
 You can use either the AWS Management Console or the EB CLI to launch the compiled WAR. Scroll down for EB CLI instructions.
 
