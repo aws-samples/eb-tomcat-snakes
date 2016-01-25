@@ -4,10 +4,8 @@ import java.util.ArrayList;
 import java.lang.NullPointerException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.JsonToken;
+import com.fasterxml.jackson.core.*;
+import com.fasterxml.jackson.databind.*;
 import java.io.File;
 import java.io.IOException;
 
@@ -20,10 +18,23 @@ public class Movie extends Media {
   private static final Logger logger = LogManager.getLogger("snakes");
   static JsonFactory factory = new JsonFactory();
 
+  public Movie() {}
   public Movie(String name, Integer imdb, boolean snakes) {
      _name = name;
      _imdb = imdb;
      _snakes = snakes;
+  }
+
+  public void setName(String name) {
+    this._name = name;
+  }
+
+  public void setImdb(Integer imdb) {
+    this._imdb = imdb;
+  }
+
+  public void setSnakes(boolean snakes) {
+    this._snakes = snakes;
   }
 
   public String getName() {
@@ -169,25 +180,36 @@ public class Movie extends Media {
     catch (SQLException e) {
       try {
         logger.warn("Initializing Database");
-        File databaseConfig = new File("/tmp/database-seed.json");
-        JsonParser parser = factory.createParser(databaseConfig);
-        ArrayList<Movie> movies = new ArrayList<Movie>();
-        Movie testmovie = new Movie("Anaconda", 118615, true);
-        movies.add(testmovie);
-        Statement create = con.createStatement();
+        // Create table
+        logger.info("Creating table");
         String createTable = "CREATE TABLE Movies (Name char(50), IMDB integer, Snakes boolean);";
-        create.addBatch(createTable);
+        Statement createStmt = con.createStatement();
+        createStmt.execute(createTable);
+      }
+      catch (SQLException f) { logger.warn(f.toString());}
+      /* Seed empty table with entries from database-seed.json at /tmp/database-seed.json
+      * Seed file is copied to /tmp during deployment by db-seed.config
+      * move db-seed.config to src/.ebextensions/inactive to disable
+      */ 
+      try{
+        // Read seed file
+        logger.info("reading seed file");
+        File databaseSeed = new File("/tmp/database-seed.json");
+        ObjectMapper mapper = new ObjectMapper();
+        Movie[] movies = mapper.readValue(databaseSeed, Movie[].class);
+        Statement create = con.createStatement();
+        logger.info("adding movies to batch");
         for (Movie movie : movies) {
           String row = "INSERT INTO Movies (Name, IMDB, Snakes) VALUES ('" + movie.getName() + "', '"+ movie.getImdb() + "', '" + movie.getSnakesBool() + "');";
-          logger.info("adding row: "+row);  
+          logger.info("- "+row);  
           create.addBatch(row);
         }
         create.executeBatch();
         create.close();
         logger.warn("Initialized Database");
       }
-      catch (SQLException f) { logger.warn(f.toString());}
       catch (IOException g) { logger.warn(g.toString());}
+      catch (SQLException h) { logger.warn(h.toString());}
     }
   }
 

@@ -1,41 +1,41 @@
 [
   {
-    "title":"Anaconda",
+    "name":"Anaconda",
     "imdb":"0118615",
     "snakes":"true"
   },
   {
-    "title":"Blade Runner",
+    "name":"Blade Runner",
     "imdb":"0083658",
     "snakes":"true"
   },
   {
-    "title":"Casablanca",
+    "name":"Casablanca",
     "imdb":"0034583",
     "snakes":"false"
   },
   {
-    "title":"Dracula",
+    "name":"Dracula",
     "imdb":"0103874",
     "snakes":"true"
   },
   {
-    "title":"Elysium",
+    "name":"Elysium",
     "imdb":"1535108",
     "snakes":"true"
   },
   {
-    "title":"Fargo",
+    "name":"Fargo",
     "imdb":"2802850",
     "snakes":"true"
   },
   {
-    "title":"Guardians of the Galaxy",
+    "name":"Guardians of the Galaxy",
     "imdb":"2015381",
     "snakes":"true"
   },
   {
-    "title":"Halloween",
+    "name":"Halloween",
     "imdb":"0077651",
     "snakes":"true"
   }
