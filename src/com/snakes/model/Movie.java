@@ -150,19 +150,6 @@ public class Movie extends Media {
     catch (SQLException f) { logger.warn(f.toString());}
   }
 
-  public static String deleteDatabase() {
-    con = getConnection();
-    try {
-      logger.warn("Deleting Movie Database");
-      Statement stmt = con.createStatement();
-      Integer result  = stmt.executeUpdate("DROP TABLE IF EXISTS Movies;");
-      logger.warn("Deleted Movie Database");
-      return new String("Executed statement: " + result + " rows affected.");
-    }
-    catch (SQLException f) { logger.warn(f.toString());}
-    return new String("Statement execution failed.");
-  }
-
   private static void initDatabase() {
     // Retrieve the connection (it should already exist)
     con = getConnection();
