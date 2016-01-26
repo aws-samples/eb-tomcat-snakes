@@ -13,12 +13,17 @@ Clone the project (SSH):
 	~$ git clone git@github.com:awslabs/eb-tomcat-snakes.git
 
 Or with HTTPS:
+
 	~$ git clone https://github.com/awslabs/eb-tomcat-snakes.git
 
-Run ``build.sh`` to compile the web app and create a WAR file:
+Run ``build.sh`` to compile the web app and create a WAR file (OS-X or Linux):
 
 	~$ cd eb-tomcat-snakes
 	~/eb-tomcat-snakes$ ./build.sh
+
+Or in Windows with Git Bash:
+
+	~/eb-tomcat-snakes$ ./build-windows.sh
 
 **IMPORTANT**
 Always run build.sh from the root of the project directory.
