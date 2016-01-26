@@ -104,24 +104,31 @@ To manage the RDS DB instance, first connect to an instance in your environment 
 If you want to clear the Movies table or test changes to the table initialization code, connect to the DB instance from an instance in your environment to run administrator commands.
 
 Run ``eb ssh`` to connect to an instance:
+
 	~\eb-tomcat-snakes$ eb ssh
 
 Install the PostgreSQL client:
+
 	[ec2-user@ip-555-55-55-555 ~]$ sudo yum install postgresql94
 
 Connect to the RDS DB instance:
+
 	[ec2-user@ip-555-55-55-555 ~]$ psql --dbname=ebdb --host=*DB_INSTANCE_HOSTNAME* --username=*DB_USERNAME*
 
 Read ``Movies`` table:
+
 	ebdb=> SELECT * FROM movies;
 
 Delete ``Movies`` table (WARNING: Deletes ``Movies`` table):
+
 	ebdb=> DROP TABLE Movies;
 
 Exit psql:
+
 	ebdb=> \q
 
 Exit SSH:
+
 	[ec2-user@ip-555-55-55-555 ~]$ exit
 
 ## Log4j
