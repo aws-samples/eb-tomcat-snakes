@@ -22,8 +22,8 @@ Always run build.sh from the root of the project directory.
 
 The script compiles the project's classes, packs the necessary files into a web archive, and then attempts to copy the WAR file to ``/Library/Tomcat`` for local testing. If you installed Tomcat to another location, change the path in ``build.sh``:
 
-  if [ -d "/path/to/Tomcat/webapps" ]; then
-    cp ROOT.war /path/to/Tomcat/webapps
+	if [ -d "/path/to/Tomcat/webapps" ]; then
+	  cp ROOT.war /path/to/Tomcat/webapps
 
 Open [localhost:8080](http://localhost:8080/) in a web browser to view the application running locally.
 
