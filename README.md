@@ -10,12 +10,12 @@ You can deploy the ROOT.war archive that build.sh generates to an AWS Elastic Be
 ### To download, build and deploy the project
 Clone the project:
 
-  ~$ git clone git@github.com:awslabs/eb-tomcat-snakes.git
+	~$ git clone git@github.com:awslabs/eb-tomcat-snakes.git
 
 Run ``build.sh`` to compile the web app and create a WAR file:
 
-  ~$ cd eb-tomcat-snakes
-  ~/eb-tomcat-snakes$ ./build.sh
+	~$ cd eb-tomcat-snakes
+	~/eb-tomcat-snakes$ ./build.sh
 
 **IMPORTANT**
 Always run build.sh from the root of the project directory.
@@ -57,28 +57,28 @@ The EB CLI requires Python 2.7 or 3.4 and the package manager ``pip``. For detai
 
 Install the EB CLI:
 
-  ~$ pip install awsebcli
+	~$ pip install awsebcli
 
 Initialize the project repository:
 
-  ~/eb-tomcat-snakes$ eb init
+	~/eb-tomcat-snakes$ eb init
 
 Add the following to ``.elasticbeanstalk/config.yml``:
 
-  deploy:
-    artifact: ROOT.war
+	deploy:
+	  artifact: ROOT.war
 
 Create an environment with an RDS database:
 
-  ~/eb-tomcat-snakes$ eb create tomcat-snakes --sample --single --timeout 20 -i t2.micro --database.engine postgres --database.instance db.t2.micro --database.username *any username* --database.password *any password*
+	~/eb-tomcat-snakes$ eb create tomcat-snakes --sample --single --timeout 20 -i t2.micro --database.engine postgres --database.instance db.t2.micro --database.username *any username* --database.password *any password*
 
 Deploy the project WAR to your new environment:
 
-  ~/eb-tomcat-snakes$ eb deploy --staged
+	~/eb-tomcat-snakes$ eb deploy --staged
 
 Open the environment in a browser:
 
-  ~/eb-tomcat-snakes$ eb open
+	~/eb-tomcat-snakes$ eb open
 
 ## Site Functionality
 The application is a simple Java EE site that uses simple tags, tag files, and an SQL database hosted in an external database in Amazon Relational Database Service (Amazon RDS).
@@ -104,22 +104,22 @@ To manage the RDS DB instance, first connect to an instance in your environment 
 If you want to clear the Movies table or test changes to the table initialization code, connect to the DB instance from an instance in your environment to run administrator commands.
 
 Run ``eb ssh`` to connect to an instance:
-  ~\eb-tomcat-snakes$ eb ssh
+	~\eb-tomcat-snakes$ eb ssh
 
 Install the PostgreSQL client:
-  [ec2-user@ip-555-55-55-555 ~]$ sudo yum install postgresql94
+	[ec2-user@ip-555-55-55-555 ~]$ sudo yum install postgresql94
 
 Connect to the RDS DB instance:
-  [ec2-user@ip-555-55-55-555 ~]$ psql --dbname=ebdb --host=*DB_INSTANCE_HOSTNAME* --username=*DB_USERNAME*
+	[ec2-user@ip-555-55-55-555 ~]$ psql --dbname=ebdb --host=*DB_INSTANCE_HOSTNAME* --username=*DB_USERNAME*
 
 Read ``Movies`` table:
-  ebdb=> SELECT * FROM movies;
+	ebdb=> SELECT * FROM movies;
 
 Delete ``Movies`` table (WARNING: Deletes ``Movies`` table):
-  ebdb=> DROP TABLE Movies;
+	ebdb=> DROP TABLE Movies;
 
 Exit psql:
-  ebdb=> \q
+	ebdb=> \q
 
 Exit SSH:
 	[ec2-user@ip-555-55-55-555 ~]$ exit
@@ -131,36 +131,36 @@ The application uses Log4j to generate a log file named ``snakes.log``. The proj
 
 This project is organized as follows (some files not shown):
 
-  ├── LICENSE             - License
-  ├── README              - This file
-  ├── build.sh            - Build script
-  └── src
-      ├── .ebextensions   - Elastic Beanstalk configuration files
-      ├── 404.jsp         - 404 error JSP
-      ├── add.jsp         - Add a Movie JSP
-      ├── default.jsp     - Home Page JSP
-      ├── movies.jsp      - Movies JSP
-      ├── search.jsp      - Search JSP
-      ├── WEB-INF
-      │   ├── lib         - Library JARs for JSP and Servlet APIs, Jasper, Log4J and PostgreSQL
-      │   ├── tags        - Header tag file
-      │   │   └── header.tag
-      │   ├── tlds        - Tag Library Descriptor for ListMovies simple tag
-      │   │   └── movies.tld
-      │   ├── log4j2.xml  - Log4J configuration file
-      │   └── web.xml     - Deployment descriptor
-      ├── com
-      │   └── snakes
-      │       ├── model   - Model classes
-      │       │   ├── Media.java
-      │       │   └── Movie.java
-      │       └── web     - Servlet and simple tag classes
-      │           ├── AddMovie.java
-      │           ├── ListMovies.java
-      │           └── SearchMovies.java
-      ├── css             - Stylesheets
-      │   ├── movies.html - HTML page for testing stylesheet changes
-      │   └── snakes.css  - Custom styles
-      ├── images          - Some royalty free images for the header and front page
-      └── js              - Bootstrap and parallax effect javascript
+	├── LICENSE             - License
+	├── README              - This file
+	├── build.sh            - Build script
+	└── src
+	    ├── .ebextensions   - Elastic Beanstalk configuration files
+	    ├── 404.jsp         - 404 error JSP
+	    ├── add.jsp         - Add a Movie JSP
+	    ├── default.jsp     - Home Page JSP
+	    ├── movies.jsp      - Movies JSP
+	    ├── search.jsp      - Search JSP
+	    ├── WEB-INF
+	    │   ├── lib         - Library JARs for JSP and Servlet APIs, Jasper, Log4J and PostgreSQL
+	    │   ├── tags        - Header tag file
+	    │   │   └── header.tag
+	    │   ├── tlds        - Tag Library Descriptor for ListMovies simple tag
+	    │   │   └── movies.tld
+	    │   ├── log4j2.xml  - Log4J configuration file
+	    │   └── web.xml     - Deployment descriptor
+	    ├── com
+	    │   └── snakes
+	    │       ├── model   - Model classes
+	    │       │   ├── Media.java
+	    │       │   └── Movie.java
+	    │       └── web     - Servlet and simple tag classes
+	    │           ├── AddMovie.java
+	    │           ├── ListMovies.java
+	    │           └── SearchMovies.java
+	    ├── css             - Stylesheets
+	    │   ├── movies.html - HTML page for testing stylesheet changes
+	    │   └── snakes.css  - Custom styles
+	    ├── images          - Some royalty free images for the header and front page
+	    └── js              - Bootstrap and parallax effect javascript
   
