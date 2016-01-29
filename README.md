@@ -147,7 +147,7 @@ The application uses Log4j to generate a log file named ``snakes.log``. The proj
 This project is organized as follows (some files not shown):
 
 	├── LICENSE             - License
-	├── README              - This file
+	├── README.md           - This file
 	├── build.sh            - Build script
 	└── src
 	    ├── .ebextensions   - Elastic Beanstalk configuration files
@@ -179,3 +179,12 @@ This project is organized as follows (some files not shown):
 	    ├── images          - Some royalty free images for the header and front page
 	    └── js              - Bootstrap and parallax effect javascript
   
+### build.sh
+The build script simply compiles each class with the Java Compiler ``javac`` and packages the compiled classes and other files into a Web ARchive named ``ROOT.war``. ``ROOT`` indicates that the app will run at the root path of the site that Tomcat serves. 
+
+***NOTE*** When you deploy a WAR file to an Elastic Beanstalk environment, it is extracted during the deployment process and runs at the root path regardless of the name of the file. Elastic Beanstalk only runs apps at other paths if you package multiple WAR files into a ZIP archive and deploy that.
+
+Only files required to run the application are included in the WAR. Uncompiled java classes and configuration files in ``.ebextensions/inactive`` are excluded.
+
+A Windows version of the build script ``build-windows.sh`` is also included. Note that the classpath arguments are separated by semicolons instead of colons.
+
