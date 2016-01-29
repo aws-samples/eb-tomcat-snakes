@@ -28,7 +28,7 @@
   <body>
     <tagfiles:header />
     <div id="hate" class="container snakes snake-hater">
-      <h1 class="cover-heading">Does it have snakes!?</h1>
+      <h1 class="cover-heading">Does it have snakes?</h1>
       <p class="lead">A safety resource for snake haters.</p>
       <!--Intro -->
       <h2>Do you or a loved one hate snakes?</h2>
@@ -38,7 +38,7 @@
       <div id="badsnake" parallax="true"></div>
       <!--Browse movies -->
       <h2>Find something to watch</h2>
-      <p>Don't get caught off guard by a snake in your evening entertainment. Doesithavesnakes.com provide a <a href="movies">list of movies</a> that are certified snake-free. Browse our list of movies when you want to find something to watch without worrying about whether it has snakes in it or not. Great for kids, the skittish, and field mice.</p>
+      <p>Don't get caught off guard by a snake in your evening entertainment. <i>Does it Have Snakes?</i> provides a <a href="movies">list of movies</a> that are certified snake-free. Browse our list of movies when you want to find something to watch without worrying about whether it has snakes in it or not. Great for kids, the skittish, and field mice.</p>
       <div id="badsnake2" parallax="true"></div>
       <!--Search for a movie -->
       <h2>Already got a movie in mind?</h2>
@@ -60,7 +60,7 @@
       <div id="goodsnake" parallax="true"></div>
       <!--Browse movies -->
       <h2>Find something to watch</h2>
-      <p>Don't take a chance with your evening entertainment. Doesithavesnakes.com provide a <a href="movies">list of movies</a> that are certified snake-ful. Browse our list of movies when you want to find something to watch without worrying about whether it has snakes in it or not. Great for kids, the brave, and mongeese.</p>
+      <p>Don't take a chance with your evening entertainment. <i>Does it Have Snakes?</i> provide a <a href="movies">list of movies</a> that are certified snake-ful. Browse our list of movies when you want to find something to watch without worrying about whether it has snakes in it or not. Great for kids, the brave, and mongeese.</p>
       <div id="goodsnake2" parallax="true"></div>
       <!--Search for a movie -->
       <h2>Already got a movie in mind?</h2>
