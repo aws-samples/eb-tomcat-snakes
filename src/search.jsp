@@ -10,7 +10,7 @@
     <link href="css/bootstrap.css" rel="stylesheet" />
     <link href="css/snakes.css" rel="stylesheet" />
 
-    <title>Movie List | Does it have snakes.com</title>
+    <title>Movie List | Does it have snakes?</title>
   </head>
   <body>
     <tagfiles:header />
