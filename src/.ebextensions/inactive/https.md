@@ -41,48 +41,48 @@ The method requires a managed certificate (for the load balancer), as well as a 
 ### To enable end-to-end HTTPS
 1. Modify `https-lbterminate.config` with the ARN of your certificate:
 	
-	   - namespace:  aws:elb:loadbalancer
-	     option_name:  SSLCertificateId
-	     value:  arn:aws:acm:us-east-1:#############:certificate/############
+        - namespace:  aws:elb:loadbalancer
+          option_name:  SSLCertificateId
+          value:  arn:aws:acm:us-east-1:#############:certificate/############
 2. Modify `https-lbterminate.config` with the ID of your VPC (default or custom):
 
-	   loadbalancersg:
-	     Type: AWS::EC2::SecurityGroup
-	     Properties:
-	       GroupDescription: load balancer security group
-	       VpcId: vpc-########
+        loadbalancersg:
+          Type: AWS::EC2::SecurityGroup
+          Properties:
+            GroupDescription: load balancer security group
+            VpcId: vpc-########
 3. Modify `https-lbreencrypt.config` with the contents of your public certificate:
 
-       Attributes : 
-         - Name : PublicKey
-           Value : |
-             ################################################################
-             ################################################################
+        Attributes : 
+          - Name : PublicKey
+            Value : |
+              ################################################################
+              ################################################################
 
 4. Modify `https-instance.config` with your bucket name:
 
-       AWS::CloudFormation::Authentication:
-         S3Auth:
-           type: "s3"
-           buckets: ["elasticbeanstalk-#########-#############"]
+        AWS::CloudFormation::Authentication:
+          S3Auth:
+            type: "s3"
+            buckets: ["elasticbeanstalk-#########-#############"]
 5. Modify `https-instance.config` with the URL of the private key:
 
-       /etc/pki/tls/certs/server.key:
-         mode: "000400"
-         owner: root
-         group: root
-         authentication: "S3Auth"
-         source: https://s3-#########.amazonaws.com/elasticbeanstalk-#########-#############/server.key
+        /etc/pki/tls/certs/server.key:
+          mode: "000400"
+          owner: root
+          group: root
+          authentication: "S3Auth"
+          source: https://s3-#########.amazonaws.com/elasticbeanstalk-#########-#############/server.key
 6. Modify `https-instance.config` with the contents of your public certificate:
 
-       /etc/pki/tls/certs/server.crt:
-         mode: "000400"
-         owner: root
-         group: root
-         content: |
-           -----BEGIN CERTIFICATE-----
-           ################################################################
-           ################################################################
+        /etc/pki/tls/certs/server.crt:
+          mode: "000400"
+          owner: root
+          group: root
+          content: |
+            -----BEGIN CERTIFICATE-----
+            ################################################################
+            ################################################################
 7. Move `https-lbterminate.config`, `https-lbreencrypt.config` and `https-instance.config` into `src/.ebextensions` and move `http-healthcheckurl.config` into `src/.ebextensions/inactive`.
 8. Build and deploy.
 
@@ -92,28 +92,28 @@ In a single instance environment, you need a public certificate and private key 
 ### To enable single instance HTTPS
 1. Modify `https-instance.config` with your bucket name:
 
-       AWS::CloudFormation::Authentication:
-         S3Auth:
-           type: "s3"
-           buckets: ["elasticbeanstalk-#########-#############"]
+        AWS::CloudFormation::Authentication:
+          S3Auth:
+            type: "s3"
+            buckets: ["elasticbeanstalk-#########-#############"]
 2. Modify `https-instance.config` with the URL of the private key:
 
-       /etc/pki/tls/certs/server.key:
-         mode: "000400"
-         owner: root
-         group: root
-         authentication: "S3Auth"
-         source: https://s3-#########.amazonaws.com/elasticbeanstalk-#########-#############/server.key
+        /etc/pki/tls/certs/server.key:
+          mode: "000400"
+          owner: root
+          group: root
+          authentication: "S3Auth"
+          source: https://s3-#########.amazonaws.com/elasticbeanstalk-#########-#############/server.key
 3. Modify `https-instance.config` with the contents of your public certificate:
 
-       /etc/pki/tls/certs/server.crt:
-         mode: "000400"
-         owner: root
-         group: root
-         content: |
-           -----BEGIN CERTIFICATE-----
-           ################################################################
-           ################################################################
+        /etc/pki/tls/certs/server.crt:
+          mode: "000400"
+          owner: root
+          group: root
+          content: |
+            -----BEGIN CERTIFICATE-----
+            ################################################################
+            ################################################################
 
 4. Move `https-instance.config` and `https-instance-single.config` into `src/.ebextensions` and move `http-healthcheckurl.config` into `src/.ebextensions/inactive`.
 5. Build and deploy.
@@ -124,35 +124,35 @@ This method also terminates at the instance, but in a load balanced environment 
 ### To enable load balancer passthrough HTTPS
 1. Modify `https-instance.config` with your bucket name:
 
-       AWS::CloudFormation::Authentication:
-         S3Auth:
-           type: "s3"
-           buckets: ["elasticbeanstalk-#########-#############"]
+        AWS::CloudFormation::Authentication:
+          S3Auth:
+            type: "s3"
+            buckets: ["elasticbeanstalk-#########-#############"]
 2. Modify `https-instance.config` with the URL of the private key:
 
-       /etc/pki/tls/certs/server.key:
-         mode: "000400"
-         owner: root
-         group: root
-         authentication: "S3Auth"
-         source: https://s3-#########.amazonaws.com/elasticbeanstalk-#########-#############/server.key
+        /etc/pki/tls/certs/server.key:
+          mode: "000400"
+          owner: root
+          group: root
+          authentication: "S3Auth"
+          source: https://s3-#########.amazonaws.com/elasticbeanstalk-#########-#############/server.key
 3. Modify `https-instance.config` with the contents of your public certificate:
 
-       /etc/pki/tls/certs/server.crt:
-         mode: "000400"
-         owner: root
-         group: root
-         content: |
-           -----BEGIN CERTIFICATE-----
-           ################################################################
-           ################################################################
+        /etc/pki/tls/certs/server.crt:
+          mode: "000400"
+          owner: root
+          group: root
+          content: |
+            -----BEGIN CERTIFICATE-----
+            ################################################################
+            ################################################################
 
 4. Modify `https-lbpassthrough.config` with the ID of your VPC:
 
-       loadbalancersg:
-         Type: AWS::EC2::SecurityGroup
-         Properties:
-           GroupDescription: load balancer security group
-           VpcId: vpc-########
+        loadbalancersg:
+          Type: AWS::EC2::SecurityGroup
+          Properties:
+            GroupDescription: load balancer security group
+            VpcId: vpc-########
 5. Move `https-instance.config` and `https-lbpassthrough.config` into `src/.ebextensions` and move `http-healthcheckurl.config` into `src/.ebextensions/inactive`.
 6. Build and deploy.
