@@ -21,16 +21,16 @@ The method requires a managed certificate created with [AWS Certificate Manager 
 ### To enable client-to-AWS HTTPS
 1. Modify `https-lbterminate.config` with the ARN of your certificate:
 	
-	   - namespace:  aws:elb:loadbalancer
-	     option_name:  SSLCertificateId
-	     value:  arn:aws:acm:us-east-1:#############:certificate/############
+        - namespace:  aws:elb:loadbalancer
+          option_name:  SSLCertificateId
+          value:  arn:aws:acm:us-east-1:#############:certificate/############
 2. Modify `https-lbterminate.config` with the ID of your VPC (default or custom):
 
-	   loadbalancersg:
-	     Type: AWS::EC2::SecurityGroup
-	     Properties:
-	       GroupDescription: load balancer security group
-	       VpcId: vpc-########
+        loadbalancersg:
+          Type: AWS::EC2::SecurityGroup
+          Properties:
+            GroupDescription: load balancer security group
+            VpcId: vpc-########
 		
 3. Move `https-lbterminate.config` and `https-lbterminate-listener.config` into `src/.ebextensions` and move `http-healthcheckurl.config` into `src/.ebextensions/inactive`.
 4. Build and deploy.
