@@ -5,15 +5,17 @@ If [AWS Certificate Manager (ACM)](https://console.aws.amazon.com/acm) is availa
 
 Other methods involve terminating HTTPS at the instance and require your instances to have the public certificate and private key. Store the private key in a secure Amazon S3 bucket and ensure that your instance has permission to read to the bucket and object in its [instance profile](http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/concepts-roles.html). The easiest way to do this is to put the key in your Elastic Beanstalk storage bucket and use the sample instance profile in the [Developer Guide](http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/concepts-roles.html#concepts-roles-instance).
 
-Six configuration files are provided for use in different combinations to enable each method: 
+Seven configuration files are provided in [`src/.ebextensions/inactive`](https://github.com/awslabs/eb-tomcat-snakes/blob/master/src/.ebextensions/inactive/) for use in different combinations to enable each method: 
 
 - `https-instance.config`
 - `https-instance-single.config`
 - `https-lbpassthrough.config`
 - `https-lbreencrypt.config`
+- `https-lbreencrypt-backendauth.config`
 - `https-lbterminate.config`
 - `https-lbterminate-listener.config`
 
+Each configuration file includes comments with more information about the resources that it creates or customizes. For more information on configuration files, see [this topic](http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/ebextensions.html) in the developer guide.
 
 ## Terminate HTTPS at the load balancer with HTTP on the backend (client-to-AWS encryption)
 The method requires a managed certificate created with [AWS Certificate Manager (ACM)](https://console.aws.amazon.com/acm) or uploaded to IAM. 
