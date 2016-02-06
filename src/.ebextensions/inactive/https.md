@@ -83,18 +83,19 @@ The method requires a managed certificate (for the load balancer), as well as a 
 Optionally you can also enable backend authentication, which forces the load balancer to authenticate to the backend EC2 instances with a specific certificate. 
 
 Pull in `https-lbreencrypt-backendauth.config` to enable this feature. This file defines two policies. The first policy specifies a public certificate:
-
+```
   aws:elb:policies:backendkey:
     PublicKey: |
       -----BEGIN CERTIFICATE-----
       ################################################################
       ################################################################
-
+```
 Replace the hash marks with the contents of your instances' public certificate. The second policy tells the load balancer only to trust this public cert when connecting to instances on port 443:
+```
     aws:elb:policies:backendencryption:
       PublicKeyPolicyNames: backendkey
       InstancePorts:  443
-
+```
 ## Terminate at the instance (single instance environments)
 In a single instance environment, you need a public certificate and private key for your instance. The downside to this method is that your instance is directly exposed to the Internet, you cannot use a free certificate from ACM, and your environment cannot scale or use rolling updates. Use this method for testing and development.
 
