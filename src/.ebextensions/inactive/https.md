@@ -51,21 +51,14 @@ The method requires a managed certificate (for the load balancer), as well as a 
           Properties:
             GroupDescription: load balancer security group
             VpcId: vpc-########
-3. Modify `https-lbreencrypt.config` with the contents of your public certificate:
 
-        Attributes : 
-          - Name : PublicKey
-            Value : |
-              ################################################################
-              ################################################################
-
-4. Modify `https-instance.config` with your bucket name:
+3. Modify `https-instance.config` with your bucket name:
 
         AWS::CloudFormation::Authentication:
           S3Auth:
             type: "s3"
             buckets: ["elasticbeanstalk-#########-#############"]
-5. Modify `https-instance.config` with the URL of the private key:
+4. Modify `https-instance.config` with the URL of the private key:
 
         /etc/pki/tls/certs/server.key:
           mode: "000400"
@@ -73,7 +66,7 @@ The method requires a managed certificate (for the load balancer), as well as a 
           group: root
           authentication: "S3Auth"
           source: https://s3-#########.amazonaws.com/elasticbeanstalk-#########-#############/server.key
-6. Modify `https-instance.config` with the contents of your public certificate:
+5. Modify `https-instance.config` with the contents of your public certificate:
 
         /etc/pki/tls/certs/server.crt:
           mode: "000400"
@@ -83,8 +76,24 @@ The method requires a managed certificate (for the load balancer), as well as a 
             -----BEGIN CERTIFICATE-----
             ################################################################
             ################################################################
-7. Move `https-lbterminate.config`, `https-lbreencrypt.config` and `https-instance.config` into `src/.ebextensions` and move `http-healthcheckurl.config` into `src/.ebextensions/inactive`.
-8. Build and deploy.
+6. Move `https-lbterminate.config`, `https-lbreencrypt.config` and `https-instance.config` into `src/.ebextensions` and move `http-healthcheckurl.config` into `src/.ebextensions/inactive`.
+7. Build and deploy.
+
+### Backend Authentication
+Optionally you can also enable backend authentication, which forces the load balancer to authenticate to the backend EC2 instances with a specific certificate. 
+
+Pull in `https-lbreencrypt-backendauth.config` to enable this feature. This file defines two policies. The first policy specifies a public certificate:
+
+  aws:elb:policies:backendkey:
+    PublicKey: |
+      -----BEGIN CERTIFICATE-----
+      ################################################################
+      ################################################################
+
+Replace the hash marks with the contents of your instances' public certificate. The second policy tells the load balancer only to trust this public cert when connecting to instances on port 443:
+    aws:elb:policies:backendencryption:
+      PublicKeyPolicyNames: backendkey
+      InstancePorts:  443
 
 ## Terminate at the instance (single instance environments)
 In a single instance environment, you need a public certificate and private key for your instance. The downside to this method is that your instance is directly exposed to the Internet, you cannot use a free certificate from ACM, and your environment cannot scale or use rolling updates. Use this method for testing and development.
