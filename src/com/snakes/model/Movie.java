@@ -82,7 +82,7 @@ public class Movie extends Media {
         return new Movie[] { failed };
       }
       Statement stmt = con.createStatement();
-      String sql = "SELECT * FROM movies";
+      String sql = "SELECT * FROM Movies;";
       ResultSet rs = stmt.executeQuery(sql);
 
       while(rs.next()){
@@ -116,7 +116,7 @@ public class Movie extends Media {
       if (title.matches(".*[^a-zA-Z0-9_\\s].*"))
         return new Movie[0];
       else
-        sql = "SELECT * FROM movies WHERE UPPER(name) LIKE UPPER('"+title+"')";
+        sql = "SELECT * FROM Movies WHERE UPPER(name) LIKE UPPER('"+title+"');";
       ResultSet rs = stmt.executeQuery(sql);
 
       while(rs.next()){
@@ -160,7 +160,7 @@ public class Movie extends Media {
     // Attempt to read movies table
     try {
       Statement stmt = con.createStatement();
-      String sql = "SELECT * FROM Movies";
+      String sql = "SELECT * FROM Movies;";
       ResultSet rs = stmt.executeQuery(sql);
     }
     // If the movies table doesn't exist, create it
