@@ -82,7 +82,7 @@ public class Movie extends Media {
         return new Movie[] { failed };
       }
       Statement stmt = con.createStatement();
-      String sql = "SELECT * FROM movies";
+      String sql = "SELECT * FROM Movies;";
       ResultSet rs = stmt.executeQuery(sql);
 
       while(rs.next()){
@@ -116,7 +116,7 @@ public class Movie extends Media {
       if (title.matches(".*[^a-zA-Z0-9_\\s].*"))
         return new Movie[0];
       else
-        sql = "SELECT * FROM movies WHERE UPPER(name) LIKE UPPER('"+title+"')";
+        sql = "SELECT * FROM Movies WHERE UPPER(name) LIKE UPPER('"+title+"');";
       ResultSet rs = stmt.executeQuery(sql);
 
       while(rs.next()){
@@ -160,7 +160,7 @@ public class Movie extends Media {
     // Attempt to read movies table
     try {
       Statement stmt = con.createStatement();
-      String sql = "SELECT * FROM Movies";
+      String sql = "SELECT * FROM Movies;";
       ResultSet rs = stmt.executeQuery(sql);
     }
     // If the movies table doesn't exist, create it
@@ -169,7 +169,7 @@ public class Movie extends Media {
         logger.warn("Initializing Database");
         // Create table
         logger.info("Creating table");
-        String createTable = "CREATE TABLE Movies (Name char(50), IMDB integer, Snakes boolean);";
+        String createTable = "CREATE TABLE Movies (Name char(50), IMDB INTEGER, Snakes ENUM('true', 'false'));";
         Statement createStmt = con.createStatement();
         createStmt.execute(createTable);
       }
@@ -232,10 +232,10 @@ public class Movie extends Media {
       */
       File databaseConfig = new File("/tmp/database.json");
       JsonParser parser = factory.createParser(databaseConfig);
-      // Load the Postgresql driver class
-      Class.forName("org.postgresql.Driver");
+      // Load the MySQL driver class
+      Class.forName("com.mysql.jdbc.Driver");
       /* Read the first value in the JSON document with Jackson. This must be a full JDBC
-      *  connection string a la jdbc:postgresql://hostname:port/dbName?user=userName&password=password
+      *  connection string a la jdbc:mysql://hostname:port/dbName?user=userName&password=password
       */
       JsonToken jsonToken = null;
       while ( jsonToken != JsonToken.VALUE_STRING ) 
@@ -254,13 +254,13 @@ public class Movie extends Media {
     // Read database info from environment variables (standard configration)
     if (System.getProperty("RDS_HOSTNAME") != null) {
       try {
-      Class.forName("org.postgresql.Driver");
+      Class.forName("com.mysql.jdbc.Driver");
       String dbName = System.getProperty("RDS_DB_NAME");
       String userName = System.getProperty("RDS_USERNAME");
       String password = System.getProperty("RDS_PASSWORD");
       String hostname = System.getProperty("RDS_HOSTNAME");
       String port = System.getProperty("RDS_PORT");
-      String jdbcUrl = "jdbc:postgresql://" + hostname + ":" + port + "/" + dbName + "?user=" + userName + "&password=" + password;
+      String jdbcUrl = "jdbc:mysql://" + hostname + ":" + port + "/" + dbName + "?user=" + userName + "&password=" + password;
       logger.trace("Getting remote connection with connection string from environment variables.");
       Connection con = DriverManager.getConnection(jdbcUrl);
       logger.info("Remote connection successful.");
@@ -275,10 +275,10 @@ public class Movie extends Media {
   // Connect to a local database for development purposes
   private static Connection getLocalConnection() {
     try {
-      Class.forName("org.postgresql.Driver");
+      Class.forName("com.mysql.jdbc.Driver");
       logger.info("Getting local connection");
       Connection con = DriverManager.getConnection(
-            "jdbc:postgresql://localhost/snakes",
+            "jdbc:mysql://localhost/snakes",
             "snakes",
             "sqlpassword");
       logger.info("Local connection successful.");
