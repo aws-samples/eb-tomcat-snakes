@@ -11,7 +11,11 @@ javac -classpath WEB-INF/lib/*:WEB-INF/classes -d WEB-INF/classes com/snakes/web
 echo .
 javac -classpath WEB-INF/lib/*:WEB-INF/classes -d WEB-INF/classes com/snakes/web/SearchMovies.java
 echo .
-jar -cf ROOT.war *.jsp images css js WEB-INF .ebextensions/*.config .ebextensions/*.json
+if [ -d ".ebextensions/httpd/conf.d" ]; then
+  jar -cf ROOT.war *.jsp images css js WEB-INF .ebextensions/*.config .ebextensions/*.json .ebextensions/httpd/conf.d/*.conf
+else
+  jar -cf ROOT.war *.jsp images css js WEB-INF .ebextensions/*.config .ebextensions/*.json
+fi
 echo .
 if [ -d "/Library/Tomcat/webapps" ]; then
   cp ROOT.war /Library/Tomcat/webapps

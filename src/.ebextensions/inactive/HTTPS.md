@@ -9,6 +9,8 @@ Seven configuration files are provided in [`src/.ebextensions/inactive`](https:/
 
 - `https-instance.config`
 - `https-instance-single.config`
+- `https-ssl.conf`
+- `https-redirect.conf`
 - `https-lbpassthrough.config`
 - `https-lbreencrypt.config`
 - `https-lbreencrypt-backendauth.config`
@@ -40,7 +42,7 @@ The method requires a managed certificate created with [AWS Certificate Manager 
 The method requires a managed certificate (for the load balancer), as well as a signed public certificate and the private key used to sign the certificate for the instances on the backend. This method is more secure but requires additional configuration. You can use a managed certificate for the front end, and a self signed certificate for the backend.
 
 ### To enable end-to-end HTTPS
-1. Copy `https-lbterminate.config`, `https-lbreencrypt.config` and `https-instance.config` into `src/.ebextensions` and move `http-healthcheckurl.config` into `src/.ebextensions/inactive`.
+1. Copy `https-lbterminate.config`, `https-lbreencrypt.config` and `https-instance.config` into `src/.ebextensions` and move `http-healthcheckurl.config` into `src/.ebextensions/inactive`. Create directory `src/.ebextensions/httpd/conf.d` and then copy `https-ssl.conf` into `src/.ebextensions/httpd/conf.d`.
 2. Modify `https-lbterminate.config` with the ARN of your certificate:
 	
         - namespace:  aws:elb:loadbalancer
@@ -78,7 +80,11 @@ The method requires a managed certificate (for the load balancer), as well as a 
             -----BEGIN CERTIFICATE-----
             ################################################################
             ################################################################
-7. Build and deploy.
+7. If you want to redirect HTTP to HTTPS, copy `https-redirect.conf` into `src/.ebextensions/httpd/conf.d`. And modify `https-redirect.conf` with the HTTPS URL redirecting to and the actual server name.
+
+        ServerName www.###############.com
+        Redirect permanent / https://www.################.com
+8. Build and deploy.
 
 ### Backend Authentication
 Optionally you can also enable backend authentication, which forces the load balancer to authenticate to the backend EC2 instances with a specific certificate. 
@@ -101,7 +107,7 @@ Replace the hash marks with the contents of your instances' public certificate. 
 In a single instance environment, you need a public certificate and private key for your instance. The downside to this method is that your instance is directly exposed to the Internet, you cannot use a free certificate from ACM, and your environment cannot scale or use rolling updates. Use this method for testing and development.
 
 ### To enable single instance HTTPS
-1. Copy `https-instance.config` and `https-instance-single.config` into `src/.ebextensions` and move `http-healthcheckurl.config` into `src/.ebextensions/inactive`.
+1. Copy `https-instance.config` and `https-instance-single.config` into `src/.ebextensions` and move `http-healthcheckurl.config` into `src/.ebextensions/inactive`. Create directory `src/.ebextensions/httpd/conf.d` and then copy `https-ssl.conf` into `src/.ebextensions/httpd/conf.d`.
 2. Modify `https-instance.config` with your bucket name:
 
         AWS::CloudFormation::Authentication:
@@ -126,13 +132,17 @@ In a single instance environment, you need a public certificate and private key 
             -----BEGIN CERTIFICATE-----
             ################################################################
             ################################################################
-5. Build and deploy.
+5. If you want to redirect HTTP to HTTPS, copy `https-redirect.conf` into `src/.ebextensions/httpd/conf.d`. And modify `https-redirect.conf` with the HTTPS URL redirecting to and the actual server name.
+
+        ServerName www.###############.com
+        Redirect permanent / https://www.################.com
+6. Build and deploy.
 
 ## Terminate at the instance (load balancer passthrough)
 This method also terminates at the instance, but in a load balanced environment where the load balancer is not configured to terminate HTTPS, but rather passes through encrypted TCP packets as-is. The down side to this method is that the load balancer cannot see the requests and thus cannot optimize routing or report response metrics.
 
 ### To enable load balancer passthrough HTTPS
-1. Move `https-instance.config` and `https-lbpassthrough.config` into `src/.ebextensions` and move `http-healthcheckurl.config` into `src/.ebextensions/inactive`.
+1. Move `https-instance.config` and `https-lbpassthrough.config` into `src/.ebextensions` and move `http-healthcheckurl.config` into `src/.ebextensions/inactive`. Create directory `src/.ebextensions/httpd/conf.d` and then copy `https-ssl.conf` into `src/.ebextensions/httpd/conf.d`.
 2. Modify `https-instance.config` with your bucket name:
 
         AWS::CloudFormation::Authentication:
@@ -164,4 +174,8 @@ This method also terminates at the instance, but in a load balanced environment 
           Properties:
             GroupDescription: load balancer security group
             VpcId: vpc-########
-6. Build and deploy.
+6. If you want to redirect HTTP to HTTPS, copy `https-redirect.conf` into `src/.ebextensions/httpd/conf.d`. And modify `https-redirect.conf` with the HTTPS URL redirecting to and the actual server name.
+
+        ServerName www.###############.com
+        Redirect permanent / https://www.################.com
+7. Build and deploy.
