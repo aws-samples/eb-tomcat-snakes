@@ -251,7 +251,7 @@ public class Movie extends Media {
     catch (ClassNotFoundException e) { logger.warn(e.toString());}
     catch (SQLException e) { logger.warn(e.toString());}
 
-    // Read database info from environment variables (standard configration)
+    // Read database info from environment variables (standard configuration)
     if (System.getProperty("RDS_HOSTNAME") != null) {
       try {
       Class.forName("org.postgresql.Driver");
