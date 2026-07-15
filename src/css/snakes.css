@@ -22,7 +22,8 @@ body {
 body {
   color: rgba(0,0,0,.75);
   text-align: center;
-  padding-top: 62px;
+  /* Clears the fixed-top navbar, which is taller in Bootstrap 5 than in 3 */
+  padding-top: 96px;
 }
 
 a {
@@ -115,7 +116,7 @@ th {
 /* 768+ px */
 @media (min-width: 768px) {
   body {
-    padding-top: 82px;
+    padding-top: 116px;
   }
   /* Pull out the header and footer */
   .masthead {
