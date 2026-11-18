@@ -13,7 +13,7 @@ public class AddMovie extends HttpServlet {
   private static final Logger logger = LogManager.getLogger("snakes");
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, NumberFormatException {
     String title = request.getParameter("title");
-    if (title.matches(".*[^a-zA-Z0-9_\\s].*")) {
+    if (Movie.hasBadChars(title)) {
       logger.warn("Bad Title String Detected.");
       title = "bad title";
     }

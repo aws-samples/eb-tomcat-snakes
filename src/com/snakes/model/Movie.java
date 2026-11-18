@@ -2,6 +2,7 @@ package com.snakes.model;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Properties;
+import java.util.regex.Pattern;
 import java.lang.NullPointerException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,6 +19,12 @@ public class Movie extends Media {
   private boolean _snakes;
   private static final Logger logger = LogManager.getLogger("snakes");
   static JsonFactory factory = new JsonFactory();
+  private static final Pattern BAD_CHARS = Pattern.compile("[^a-zA-Z0-9_\\s]");
+
+  // find() checks every line; matches() with ".*" stopped at the first newline.
+  public static boolean hasBadChars(String s) {
+    return s == null || BAD_CHARS.matcher(s).find();
+  }
 
   public Movie() {}
   public Movie(String name, Integer imdb, boolean snakes) {
@@ -112,13 +119,11 @@ public class Movie extends Media {
         Movie failed = new Movie("Connection Failed", 99999999, false);
         return new Movie[] { failed };
       }
-      Statement stmt = con.createStatement();
-      String sql = null;
-      if (title.matches(".*[^a-zA-Z0-9_\\s].*"))
+      if (hasBadChars(title))
         return new Movie[0];
-      else
-        sql = "SELECT * FROM Movies WHERE UPPER(name) LIKE UPPER('"+title+"');";
-      ResultSet rs = stmt.executeQuery(sql);
+      PreparedStatement stmt = con.prepareStatement("SELECT * FROM Movies WHERE UPPER(name) LIKE UPPER(?);");
+      stmt.setString(1, title);
+      ResultSet rs = stmt.executeQuery();
 
       while(rs.next()){
         // Retrieve by column name
@@ -141,11 +146,12 @@ public class Movie extends Media {
       return;
     }
     try {
-      Statement create = con.createStatement();
-      String insertRow1 = "INSERT INTO Movies (Name, IMDB, Snakes) VALUES ('"+name+"', '"+imdb+"', '"+snakes+"');";
-      logger.trace("adding movie with statement: "+ insertRow1);
-      create.addBatch(insertRow1);
-      create.executeBatch();
+      PreparedStatement create = con.prepareStatement("INSERT INTO Movies (Name, IMDB, Snakes) VALUES (?, ?, ?);");
+      create.setString(1, name);
+      create.setObject(2, imdb, Types.INTEGER);
+      create.setString(3, String.valueOf(snakes));
+      logger.trace("adding movie");
+      create.executeUpdate();
       create.close();
     }
     catch (SQLException f) { logger.warn(f.toString());}
